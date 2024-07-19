@@ -1,5 +1,8 @@
+@file:Suppress("UNUSED_EXPRESSION")
+
 package com.example.timeinclusionchecker.ui
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -9,6 +12,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.*
 import androidx.compose.material3.TextButton
@@ -33,9 +38,11 @@ import kotlinx.coroutines.launch
 /**
  * チェック画面
  */
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun StartCheckScreen(
     checkViewModel: CheckViewModel = viewModel(factory = AppViewModelProvider.Factory),
+    onNextButtonClicked: () -> Unit = {},
     modifier: Modifier = Modifier
 ) {
     val coroutineScope = rememberCoroutineScope()
@@ -49,140 +56,160 @@ fun StartCheckScreen(
     var lastTimeSelectedNumber by remember { mutableStateOf("選択してください") }
     var targetTimeSelectedNumber by remember { mutableStateOf("選択してください") }
 
-    Column(
-        modifier = Modifier.fillMaxWidth(),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.padding_medium))
+    Scaffold(
+        floatingActionButton = {
+            FloatingActionButton(
+                onClick = onNextButtonClicked,
+                shape = MaterialTheme.shapes.medium,
+                modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_large))
+            ) {
+                Icon(
+                    imageVector = Icons.Default.Add,
+                    contentDescription = stringResource(R.string.view_histories_list)
+                )
+            }
+        },
     ) {
-        Spacer(modifier = Modifier.height(dimensionResource(R.dimen.padding_medium)))
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.Center,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-
-            // 最初の時間
-            Column(
-                modifier = Modifier.weight(1f),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-
-                Text(
-                    text = stringResource(R.string.input_first_time),
-                    style = MaterialTheme.typography.headlineSmall
-                )
-                Spacer(modifier = Modifier.height(dimensionResource(R.dimen.padding_small)))
-
-                TextButton(onClick = { firstTimeExpanded = true }) {
-                    Text(firstTimeSelectedNumber)
-                }
-                DropdownMenu(
-                    expanded = firstTimeExpanded,
-                    onDismissRequest = { firstTimeExpanded = false }
-                ) {
-                    (0..23).forEach { number ->
-
-                        DropdownMenuItem(
-                            text = { Text(text = number.toString()) },
-                            onClick = {
-                                firstTimeSelectedNumber = number.toString()
-                                firstTimeExpanded = false
-                                checkViewModel.updateStartTime(number.toString())
-                            }
-                        )
-                    }
-                }
-            }
-
-            Spacer(modifier = Modifier.width(16.dp))
-
-            // 最後の時間
-            Column(
-                modifier = Modifier.weight(1f),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                Text(
-                    text = stringResource(R.string.input_last_time),
-                    style = MaterialTheme.typography.headlineSmall
-                )
-
-                Spacer(modifier = Modifier.height(dimensionResource(R.dimen.padding_small)))
-
-                TextButton(onClick = { lastTimeExpanded = true }) {
-                    Text(lastTimeSelectedNumber)
-                }
-                DropdownMenu(
-                    expanded = lastTimeExpanded,
-                    onDismissRequest = { lastTimeExpanded = false }
-                ) {
-                    (0..23).forEach { number ->
-
-                        DropdownMenuItem(
-                            text = { Text(text = number.toString()) },
-                            onClick = {
-                                lastTimeSelectedNumber = number.toString()
-                                lastTimeExpanded = false
-                                checkViewModel.updateLastTime(number.toString())
-                            }
-                        )
-                    }
-                }
-            }
-
-        }
-
-        // 調査対象時間
         Column(
-            modifier = modifier,
+            modifier = Modifier.fillMaxWidth(),
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.padding_small))
+            verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.padding_medium))
         ) {
-            Text(
-                text = stringResource(R.string.input_target_time),
-                style = MaterialTheme.typography.headlineSmall
-            )
-
-            TextButton(onClick = { targetTimeExpanded = true }) {
-                Text(targetTimeSelectedNumber)
-            }
-            DropdownMenu(
-                expanded = targetTimeExpanded,
-                onDismissRequest = { targetTimeExpanded = false }
+            Spacer(modifier = Modifier.height(dimensionResource(R.dimen.padding_medium)))
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.Center,
+                verticalAlignment = Alignment.CenterVertically
             ) {
-                (0..23).forEach { number ->
 
-                    DropdownMenuItem(
-                        text = { Text(text = number.toString()) },
-                        onClick = {
-                            targetTimeSelectedNumber = number.toString()
-                            targetTimeExpanded = false
-                            checkViewModel.updateTargetTime(number.toString())
+                // 最初の時間
+                Column(
+                    modifier = Modifier.weight(1f),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+
+                    Text(
+                        text = stringResource(R.string.input_first_time),
+                        style = MaterialTheme.typography.headlineSmall
+                    )
+                    Spacer(modifier = Modifier.height(dimensionResource(R.dimen.padding_small)))
+
+                    TextButton(onClick = { firstTimeExpanded = true }) {
+                        Text(firstTimeSelectedNumber)
+                    }
+                    DropdownMenu(
+                        expanded = firstTimeExpanded,
+                        onDismissRequest = { firstTimeExpanded = false }
+                    ) {
+                        (0..23).forEach { number ->
+
+                            DropdownMenuItem(
+                                text = { Text(text = number.toString()) },
+                                onClick = {
+                                    firstTimeSelectedNumber = number.toString()
+                                    firstTimeExpanded = false
+                                    checkViewModel.updateStartTime(number.toString())
+                                }
+                            )
                         }
+                    }
+                }
+
+                Spacer(modifier = Modifier.width(16.dp))
+
+                // 最後の時間
+                Column(
+                    modifier = Modifier.weight(1f),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Text(
+                        text = stringResource(R.string.input_last_time),
+                        style = MaterialTheme.typography.headlineSmall
+                    )
+
+                    Spacer(modifier = Modifier.height(dimensionResource(R.dimen.padding_small)))
+
+                    TextButton(onClick = { lastTimeExpanded = true }) {
+                        Text(lastTimeSelectedNumber)
+                    }
+                    DropdownMenu(
+                        expanded = lastTimeExpanded,
+                        onDismissRequest = { lastTimeExpanded = false }
+                    ) {
+                        (0..23).forEach { number ->
+
+                            DropdownMenuItem(
+                                text = { Text(text = number.toString()) },
+                                onClick = {
+                                    lastTimeSelectedNumber = number.toString()
+                                    lastTimeExpanded = false
+                                    checkViewModel.updateLastTime(number.toString())
+                                }
+                            )
+                        }
+                    }
+                }
+
+            }
+
+            // 調査対象時間
+            Column(
+                modifier = modifier,
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.padding_small))
+            ) {
+                Text(
+                    text = stringResource(R.string.input_target_time),
+                    style = MaterialTheme.typography.headlineSmall
+                )
+
+                TextButton(onClick = { targetTimeExpanded = true }) {
+                    Text(targetTimeSelectedNumber)
+                }
+                DropdownMenu(
+                    expanded = targetTimeExpanded,
+                    onDismissRequest = { targetTimeExpanded = false }
+                ) {
+                    (0..23).forEach { number ->
+
+                        DropdownMenuItem(
+                            text = { Text(text = number.toString()) },
+                            onClick = {
+                                targetTimeSelectedNumber = number.toString()
+                                targetTimeExpanded = false
+                                checkViewModel.updateTargetTime(number.toString())
+                            }
+                        )
+                    }
+                }
+
+
+                // 確認するボタン
+                Button(
+                    onClick = {
+                        checkViewModel.checkInRange()
+                        coroutineScope.launch {
+                            checkViewModel.saveHistory()
+                        }
+                    },
+                    shape = MaterialTheme.shapes.small,
+                    enabled = true
+                ) {
+                    Text(
+                        text = stringResource(R.string.check_button),
+                        style = MaterialTheme.typography.headlineSmall
                     )
                 }
-            }
 
-
-            // 確認するボタン
-            Button(
-                onClick = { checkViewModel.checkInRange()
-                    coroutineScope.launch {
-                        checkViewModel.saveHistory()
-                    }},
-                shape = MaterialTheme.shapes.small,
-                enabled = true
-            ) {
-                Text(text = stringResource(R.string.check_button))
-            }
-
-            Card(
-                modifier = Modifier.padding(20.dp)
-            ) {
-                Text(
-                    text = stringResource(R.string.check_result) + uiState.isInRange,
-                    style = MaterialTheme.typography.headlineSmall,
-                    modifier = Modifier.padding(8.dp)
-                )
+                Card(
+                    modifier = Modifier.padding(20.dp)
+                ) {
+                    Text(
+                        text = stringResource(R.string.check_result) + uiState.isInRange,
+                        style = MaterialTheme.typography.headlineSmall,
+                        modifier = Modifier.padding(8.dp)
+                    )
+                }
             }
         }
     }
@@ -194,6 +221,7 @@ fun StartCheckScreen(
 fun StartOrderPreview() {
     TimeInclusionCheckerTheme {
         StartCheckScreen(
+            onNextButtonClicked = {},
             modifier = Modifier
                 .fillMaxSize()
                 .padding(dimensionResource(R.dimen.padding_medium))

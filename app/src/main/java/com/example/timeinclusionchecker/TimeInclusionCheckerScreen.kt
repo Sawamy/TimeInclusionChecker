@@ -1,6 +1,7 @@
 package com.example.timeinclusionchecker
 
 import androidx.annotation.StringRes
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -24,10 +25,11 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.timeinclusionchecker.ui.StartCheckScreen
+import com.example.timeinclusionchecker.ui.histories.HistoriesScreen
 
 enum class TimeInclusionCheckerScreen(@StringRes val title: Int) {
     Start(title = R.string.app_name),
-    history(title = R.string.history),
+    History(title = R.string.history),
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -84,9 +86,17 @@ fun TimeInclusionCheckerApp(
         ) {
             composable(route = TimeInclusionCheckerScreen.Start.name) {
                 StartCheckScreen(
+                    onNextButtonClicked = {
+                        navController.navigate(TimeInclusionCheckerScreen.History.name)
+                    },
                     modifier = Modifier
                         .fillMaxSize()
                         .padding(dimensionResource(R.dimen.padding_medium))
+                )
+            }
+            composable(route = TimeInclusionCheckerScreen.History.name) {
+                HistoriesScreen(
+                    modifier = Modifier.fillMaxHeight()
                 )
             }
         }

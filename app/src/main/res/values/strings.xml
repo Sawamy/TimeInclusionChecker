@@ -9,4 +9,7 @@
     <string name="input_target_time">調査対象時間</string>
     <string name="check_result">"調査結果:  "</string>
     <string name="check_button">確認する</string>
+
+    <string name="view_histories_list">履歴リストを表示する</string>
+    <string name="no_item_description">履歴がありません</string>
 </resources>
