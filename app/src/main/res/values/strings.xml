@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">TimeInclusionChecker</string>
+    <string name="check">check</string>
+    <string name="history">history</string>
+    <string name="back_button">Back</string>
+
+    <string name="input_first_time">最初の時間</string>
+    <string name="input_last_time">最後の時間</string>
+    <string name="input_target_time">調査対象時間</string>
+    <string name="check_result">"調査結果:  "</string>
+    <string name="check_button">確認する</string>
 </resources>

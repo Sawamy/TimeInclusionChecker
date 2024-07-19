@@ -59,11 +59,21 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.junit)
+
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))
+    implementation("androidx.navigation:navigation-compose:2.7.5")
+    implementation("androidx.compose.material3:material3:1.3.0-beta04")
+
+    // Veiw Model
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.2")
+    implementation("androidx.navigation:navigation-compose:2.7.5")
+
+
+    // Testing
     androidTestImplementation(libs.androidx.ui.test.junit4)
+    testImplementation(libs.junit)
+    androidTestImplementation(libs.androidx.junit)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 }
