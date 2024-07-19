@@ -2,12 +2,14 @@ package com.example.timeinclusionchecker.ui
 
 import androidx.lifecycle.ViewModel
 import com.example.timeinclusionchecker.data.CheckUiState
+import com.example.timeinclusionchecker.data.HistoriesRepository
+import com.example.timeinclusionchecker.data.History
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 
-class CheckViewModel : ViewModel() {
+class CheckViewModel(private val historiesRepository: HistoriesRepository) : ViewModel() {
 
     private val _uiState = MutableStateFlow(CheckUiState())
     val uiState: StateFlow<CheckUiState> = _uiState.asStateFlow()
@@ -79,4 +81,31 @@ class CheckViewModel : ViewModel() {
             // 未入力があったら何もしない
         }
     }
+
+    suspend fun saveHistory() {
+        val temp = HistoryDetails(
+            0,
+            startTime = _uiState.value.startTime,
+            lastTime = _uiState.value.lastTime,
+            targetTime = _uiState.value.targetTime,
+            isInRange = _uiState.value.isInRange
+        )
+        historiesRepository.insertHistory(temp.toHistory())
+    }
 }
+
+data class HistoryDetails(
+    val id: Int = 0,
+    val startTime: String = "",
+    val lastTime: String = "",
+    val targetTime: String = "",
+    val isInRange: String = "",
+)
+
+fun HistoryDetails.toHistory(): History = History(
+    id = id,
+    startTime = startTime,
+    lastTime = lastTime,
+    targetTime = targetTime,
+    isInRange = isInRange
+)
