@@ -60,9 +60,24 @@ class CheckViewModel(private val historiesRepository: HistoriesRepository) : Vie
             && lastTime != "選択してください"
             && targetTime != "選択してください"
         ) {
-            // 結果を更新する
-            // TODO 正しく実装する
-            if (startTime.toInt() < lastTime.toInt()) {
+            val startTimeInt = startTime.toInt()
+            val lastTimeInt = lastTime.toInt()
+            val targetTimeInt = targetTime.toInt()
+
+            var result = false
+
+            if (startTimeInt <= lastTimeInt) {
+                // 範囲が同じ日の場合
+                if (targetTimeInt in startTimeInt..lastTimeInt) {
+                    result = true
+                }
+            } else {
+                // 範囲が日をまたぐ場合
+                if (targetTimeInt in startTimeInt..23 || targetTimeInt in 0..lastTimeInt)
+                    result = true
+            }
+
+            if (result) {
                 _uiState.update { currentState ->
                     currentState.copy(
                         isInRange = "範囲内"

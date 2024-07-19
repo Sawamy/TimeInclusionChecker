@@ -3,6 +3,7 @@
 package com.example.timeinclusionchecker.ui
 
 import android.annotation.SuppressLint
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -27,6 +28,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -63,9 +65,10 @@ fun StartCheckScreen(
                 shape = MaterialTheme.shapes.medium,
                 modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_large))
             ) {
-                Icon(
-                    imageVector = Icons.Default.Add,
-                    contentDescription = stringResource(R.string.view_histories_list)
+                Image(
+                    painter = painterResource(R.drawable.baseline_history_24),
+                    contentDescription = stringResource(R.string.view_histories_list),
+                    modifier = Modifier.width(50.dp)
                 )
             }
         },
@@ -95,7 +98,7 @@ fun StartCheckScreen(
                     Spacer(modifier = Modifier.height(dimensionResource(R.dimen.padding_small)))
 
                     TextButton(onClick = { firstTimeExpanded = true }) {
-                        Text(firstTimeSelectedNumber)
+                        Text(firstTimeSelectedNumber + "時")
                     }
                     DropdownMenu(
                         expanded = firstTimeExpanded,
@@ -104,7 +107,7 @@ fun StartCheckScreen(
                         (0..23).forEach { number ->
 
                             DropdownMenuItem(
-                                text = { Text(text = number.toString()) },
+                                text = { Text(text = number.toString() + "時") },
                                 onClick = {
                                     firstTimeSelectedNumber = number.toString()
                                     firstTimeExpanded = false
@@ -130,7 +133,7 @@ fun StartCheckScreen(
                     Spacer(modifier = Modifier.height(dimensionResource(R.dimen.padding_small)))
 
                     TextButton(onClick = { lastTimeExpanded = true }) {
-                        Text(lastTimeSelectedNumber)
+                        Text(lastTimeSelectedNumber + "時")
                     }
                     DropdownMenu(
                         expanded = lastTimeExpanded,
@@ -139,7 +142,7 @@ fun StartCheckScreen(
                         (0..23).forEach { number ->
 
                             DropdownMenuItem(
-                                text = { Text(text = number.toString()) },
+                                text = { Text(text = number.toString() + "時") },
                                 onClick = {
                                     lastTimeSelectedNumber = number.toString()
                                     lastTimeExpanded = false
@@ -164,7 +167,7 @@ fun StartCheckScreen(
                 )
 
                 TextButton(onClick = { targetTimeExpanded = true }) {
-                    Text(targetTimeSelectedNumber)
+                    Text(targetTimeSelectedNumber + "時")
                 }
                 DropdownMenu(
                     expanded = targetTimeExpanded,
@@ -173,7 +176,7 @@ fun StartCheckScreen(
                     (0..23).forEach { number ->
 
                         DropdownMenuItem(
-                            text = { Text(text = number.toString()) },
+                            text = { Text(text = number.toString() + "時") },
                             onClick = {
                                 targetTimeSelectedNumber = number.toString()
                                 targetTimeExpanded = false
