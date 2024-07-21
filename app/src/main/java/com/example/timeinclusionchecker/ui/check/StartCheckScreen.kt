@@ -1,4 +1,4 @@
-package com.example.timeinclusionchecker.ui
+package com.example.timeinclusionchecker.ui.check
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
@@ -19,6 +19,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -29,6 +30,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.timeinclusionchecker.R
+import com.example.timeinclusionchecker.ui.AppViewModelProvider
 import com.example.timeinclusionchecker.ui.theme.TimeInclusionCheckerTheme
 import kotlinx.coroutines.launch
 
@@ -37,7 +39,7 @@ import kotlinx.coroutines.launch
  */
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun StartCheckScreen(
+fun CheckScreen(
     checkViewModel: CheckViewModel = viewModel(factory = AppViewModelProvider.Factory),
     onNextButtonClicked: () -> Unit = {}
 ) {
@@ -48,9 +50,9 @@ fun StartCheckScreen(
     var firstTimeExpanded by remember { mutableStateOf(false) }
     var lastTimeExpanded by remember { mutableStateOf(false) }
     var targetTimeExpanded by remember { mutableStateOf(false) }
-    var firstTimeSelectedNumber by remember { mutableStateOf("選択してください") }
-    var lastTimeSelectedNumber by remember { mutableStateOf("選択してください") }
-    var targetTimeSelectedNumber by remember { mutableStateOf("選択してください") }
+    var firstTimeSelectedNumber by rememberSaveable { mutableStateOf("選択してください") }
+    var lastTimeSelectedNumber by rememberSaveable { mutableStateOf("選択してください") }
+    var targetTimeSelectedNumber by rememberSaveable { mutableStateOf("選択してください") }
 
     Scaffold(
         floatingActionButton = {
@@ -258,7 +260,8 @@ fun StartCheckScreen(
                 }
 
                 Card(
-                    modifier = Modifier.padding(20.dp)
+                    modifier = Modifier.padding(20.dp).width(300.dp),
+
                 ) {
                     Text(
                         text = if (uiState.isInRange.isEmpty()) {
@@ -267,7 +270,7 @@ fun StartCheckScreen(
                             stringResource(R.string.check_result) + uiState.isInRange
                         },
                         style = MaterialTheme.typography.headlineSmall,
-                        modifier = Modifier.padding(8.dp)
+                        modifier = Modifier.padding(8.dp).align(Alignment.CenterHorizontally)
                     )
                 }
             }
@@ -279,7 +282,7 @@ fun StartCheckScreen(
 @Composable
 fun StartOrderPreview() {
     TimeInclusionCheckerTheme {
-        StartCheckScreen(
+        CheckScreen(
             onNextButtonClicked = {}
         )
     }

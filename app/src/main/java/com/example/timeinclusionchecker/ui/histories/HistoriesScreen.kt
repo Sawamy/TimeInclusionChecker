@@ -50,6 +50,8 @@ private fun HistoryBody(
     historyList: List<History>,
     modifier: Modifier = Modifier,
 ) {
+
+
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier,

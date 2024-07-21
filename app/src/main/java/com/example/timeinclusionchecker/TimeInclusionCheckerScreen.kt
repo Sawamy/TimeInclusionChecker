@@ -22,7 +22,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.example.timeinclusionchecker.ui.StartCheckScreen
+import com.example.timeinclusionchecker.ui.check.CheckScreen
 import com.example.timeinclusionchecker.ui.histories.HistoriesScreen
 
 enum class TimeInclusionCheckerScreen(@StringRes val title: Int) {
@@ -83,7 +83,7 @@ fun TimeInclusionCheckerApp(
             modifier = Modifier.padding(innerPadding)
         ) {
             composable(route = TimeInclusionCheckerScreen.Start.name) {
-                StartCheckScreen(
+                CheckScreen(
                     onNextButtonClicked = {
                         navController.navigate(TimeInclusionCheckerScreen.History.name)
                     }

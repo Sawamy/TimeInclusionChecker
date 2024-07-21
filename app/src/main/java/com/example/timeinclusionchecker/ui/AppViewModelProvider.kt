@@ -6,6 +6,7 @@ import androidx.lifecycle.viewmodel.CreationExtras
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.timeinclusionchecker.TimeInclusionCheckerApplication
+import com.example.timeinclusionchecker.ui.check.CheckViewModel
 import com.example.timeinclusionchecker.ui.histories.HistoriesViewModel
 
 object AppViewModelProvider {

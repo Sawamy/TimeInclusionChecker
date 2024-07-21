@@ -1,4 +1,4 @@
-package com.example.timeinclusionchecker.ui
+package com.example.timeinclusionchecker.ui.check
 
 import androidx.lifecycle.ViewModel
 import com.example.timeinclusionchecker.data.CheckUiState
