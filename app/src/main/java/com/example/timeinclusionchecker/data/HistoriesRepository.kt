@@ -4,27 +4,27 @@ import kotlinx.coroutines.flow.Flow
 
 interface HistoriesRepository {
         /**
-         * Retrieve all the Histories from the the given data source.
+         * すべての History を取得する
          */
         fun getAllHistoriesStream(): Flow<List<History>>
 
         /**
-         * Retrieve an History from the given data source that matches with the [id].
+         * [id] に一致する History を取得する
          */
         fun getHistoriesStream(id: Int): Flow<History?>
 
         /**
-         * Insert History in the data source
+         * History を挿入する
          */
         suspend fun insertHistory(history: History)
 
         /**
-         * Delete History from the data source
+         * History を削除する
          */
         suspend fun deleteHistory(history: History)
 
         /**
-         * Update History in the data source
+         *  History の更新
          */
         suspend fun updateHistory(history: History)
 
