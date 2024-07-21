@@ -23,9 +23,11 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -50,9 +52,12 @@ fun CheckScreen(
     var firstTimeExpanded by remember { mutableStateOf(false) }
     var lastTimeExpanded by remember { mutableStateOf(false) }
     var targetTimeExpanded by remember { mutableStateOf(false) }
-    var firstTimeSelectedNumber by rememberSaveable { mutableStateOf("選択してください") }
-    var lastTimeSelectedNumber by rememberSaveable { mutableStateOf("選択してください") }
-    var targetTimeSelectedNumber by rememberSaveable { mutableStateOf("選択してください") }
+    val pleaseSelect = "選択してください"
+    var firstTimeSelectedNumber by rememberSaveable { mutableStateOf(pleaseSelect) }
+    var lastTimeSelectedNumber by rememberSaveable { mutableStateOf(pleaseSelect) }
+    var targetTimeSelectedNumber by rememberSaveable { mutableStateOf(pleaseSelect) }
+
+    var showDialog by remember { mutableStateOf(false) }
 
     Scaffold(
         floatingActionButton = {
@@ -85,7 +90,7 @@ fun CheckScreen(
                 verticalAlignment = Alignment.CenterVertically
             ) {
 
-                // 最初の時間
+                // 最初の時刻
                 Column(
                     modifier = Modifier.weight(1f),
                     horizontalAlignment = Alignment.CenterHorizontally
@@ -99,10 +104,10 @@ fun CheckScreen(
 
                     TextButton(onClick = { firstTimeExpanded = true }) {
                         Text(
-                            text = if (firstTimeSelectedNumber == "選択してください") {
+                            text = if (firstTimeSelectedNumber == pleaseSelect) {
                                 firstTimeSelectedNumber
                             } else {
-                                firstTimeSelectedNumber + "時"
+                                firstTimeSelectedNumber + stringResource(R.string.histories_hour)
                             },
                             style = MaterialTheme.typography.titleMedium
                         )
@@ -116,7 +121,7 @@ fun CheckScreen(
                             DropdownMenuItem(
                                 text = {
                                     Text(
-                                        text = number.toString() + "時",
+                                        text = number.toString() + stringResource(R.string.histories_hour),
                                         style = MaterialTheme.typography.titleMedium
                                     )
                                 },
@@ -133,7 +138,7 @@ fun CheckScreen(
 
                 Spacer(modifier = Modifier.width(16.dp))
 
-                // 最後の時間
+                // 最後の時刻
                 Column(
                     modifier = Modifier.weight(1f),
                     horizontalAlignment = Alignment.CenterHorizontally
@@ -147,10 +152,10 @@ fun CheckScreen(
 
                     TextButton(onClick = { lastTimeExpanded = true }) {
                         Text(
-                            text = if (lastTimeSelectedNumber == "選択してください") {
+                            text = if (lastTimeSelectedNumber == pleaseSelect) {
                                 lastTimeSelectedNumber
                             } else {
-                                lastTimeSelectedNumber + "時"
+                                lastTimeSelectedNumber + stringResource(R.string.histories_hour)
                             },
                             style = MaterialTheme.typography.titleMedium
                         )
@@ -164,7 +169,7 @@ fun CheckScreen(
                             DropdownMenuItem(
                                 text = {
                                     Text(
-                                        text = number.toString() + "時",
+                                        text = number.toString() + stringResource(R.string.histories_hour),
                                         style = MaterialTheme.typography.titleMedium
                                     )
                                 },
@@ -180,7 +185,7 @@ fun CheckScreen(
 
             }
 
-            // 調査対象時間
+            // 調査対象時刻
             Column(
                 modifier = Modifier
                     .align(Alignment.CenterHorizontally)
@@ -201,10 +206,10 @@ fun CheckScreen(
                         .align(Alignment.CenterHorizontally),
                 ) {
                     Text(
-                        text = if (targetTimeSelectedNumber == "選択してください") {
+                        text = if (targetTimeSelectedNumber == pleaseSelect) {
                             targetTimeSelectedNumber
                         } else {
-                            targetTimeSelectedNumber + "時"
+                            targetTimeSelectedNumber + stringResource(R.string.histories_hour)
                         },
                         style = MaterialTheme.typography.titleMedium
                     )
@@ -219,7 +224,7 @@ fun CheckScreen(
                         DropdownMenuItem(
                             text = {
                                 Text(
-                                    text = number.toString() + "時",
+                                    text = number.toString() + stringResource(R.string.histories_hour),
                                     style = MaterialTheme.typography.titleMedium
                                 )
                             },
@@ -248,6 +253,8 @@ fun CheckScreen(
                             coroutineScope.launch {
                                 checkViewModel.saveHistory()
                             }
+                            showDialog = true
+
                         }
                     },
                     shape = MaterialTheme.shapes.small,
@@ -259,8 +266,22 @@ fun CheckScreen(
                     )
                 }
 
+                if (showDialog) {
+                    SimpleAlertDialog(
+                        title = "チェック結果",
+                        messageText = uiState.isInRange,
+                        confirmButtonText = "OK",
+                        onClickConfirm = {
+                            // Handle confirmation action
+                            showDialog = false
+                        }
+                    )
+                }
+
                 Card(
-                    modifier = Modifier.padding(20.dp).width(300.dp),
+                    modifier = Modifier
+                        .padding(20.dp)
+                        .width(300.dp),
 
                 ) {
                     Text(
@@ -270,12 +291,56 @@ fun CheckScreen(
                             stringResource(R.string.check_result) + uiState.isInRange
                         },
                         style = MaterialTheme.typography.headlineSmall,
-                        modifier = Modifier.padding(8.dp).align(Alignment.CenterHorizontally)
+                        modifier = Modifier
+                            .padding(8.dp)
+                            .align(Alignment.CenterHorizontally)
                     )
                 }
             }
         }
     }
+}
+
+@Composable
+fun SimpleAlertDialog(
+    title: String?,
+    messageText: String?,
+    confirmButtonText: String,
+    onClickConfirm: () -> Unit,
+    isCancelable: Boolean = true,
+) {
+    AlertDialog(
+        onDismissRequest = {
+            if (isCancelable) {
+                // Handle dismissal action
+            }
+        },
+        title = if (title != null) {
+            { Text(text = title, fontWeight = FontWeight.Bold) }
+        } else {
+            null
+        },
+        text = if (messageText != null) {
+            {
+                Text(
+                    text = messageText,
+                    style = MaterialTheme.typography.titleMedium
+                )
+            }
+        } else {
+            null
+        },
+        confirmButton = {
+            TextButton(
+                onClick = onClickConfirm,
+            ) {
+                Text(
+                    text = confirmButtonText,
+                    color = Color.Blue,
+                )
+            }
+        }
+    )
 }
 
 @Preview

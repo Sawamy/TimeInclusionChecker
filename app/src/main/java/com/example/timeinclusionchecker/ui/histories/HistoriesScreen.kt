@@ -108,7 +108,7 @@ private fun HistoryItem(
                 Text(
                     modifier = Modifier.weight(1f),
                     textAlign = TextAlign.Start,
-                    text = "No: " + history.id,
+                    text = stringResource(R.string.histories_no) + history.id,
                     style = MaterialTheme.typography.titleMedium
                 )
                 Spacer(modifier = Modifier.width(16.dp))
@@ -125,14 +125,14 @@ private fun HistoryItem(
                 Text(
                     modifier = Modifier.weight(1f),
                     textAlign = TextAlign.Start,
-                    text = "開始時刻: " + history.startTime + "時",
+                    text = stringResource(R.string.histories_start_time) + history.startTime + stringResource(R.string.histories_hour),
                     style = MaterialTheme.typography.titleMedium
                 )
                 Spacer(modifier = Modifier.width(16.dp))
                 Text(
                     modifier = Modifier.weight(1f),
                     textAlign = TextAlign.Start,
-                    text = "終了時刻: " + history.lastTime + "時",
+                    text = stringResource(R.string.histories_last_time) + history.lastTime + stringResource(R.string.histories_hour),
                     style = MaterialTheme.typography.titleMedium
                 )
             }
@@ -142,14 +142,14 @@ private fun HistoryItem(
                 Text(
                     modifier = Modifier.weight(1f),
                     textAlign = TextAlign.Start,
-                    text = "調査対象時間: " + history.targetTime + "時",
+                    text = stringResource(R.string.histories_target_time) + history.targetTime + stringResource(R.string.histories_hour),
                     style = MaterialTheme.typography.titleMedium
                 )
                 Spacer(modifier = Modifier.width(16.dp))
                 Text(
                     modifier = Modifier.weight(1f),
                     textAlign = TextAlign.Start,
-                    text = "判定結果: " + history.isInRange,
+                    text = stringResource(R.string.histories_is_in_range) + history.isInRange,
                     style = MaterialTheme.typography.titleMedium
                 )
             }

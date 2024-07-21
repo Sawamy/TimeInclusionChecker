@@ -17,7 +17,7 @@ class CheckViewModel(private val historiesRepository: HistoriesRepository) : Vie
     val uiState: StateFlow<CheckUiState> = _uiState.asStateFlow()
 
     /**
-     * 範囲開始時間を更新する
+     * 範囲開始時刻を更新する
      */
     fun updateStartTime(startTime: String) {
         _uiState.update { currentState ->
@@ -28,7 +28,7 @@ class CheckViewModel(private val historiesRepository: HistoriesRepository) : Vie
     }
 
     /**
-     * 範囲終了時間を更新する
+     * 範囲終了時刻を更新する
      */
     fun updateLastTime(lastTime: String) {
         _uiState.update { currentState ->
@@ -39,7 +39,7 @@ class CheckViewModel(private val historiesRepository: HistoriesRepository) : Vie
     }
 
     /**
-     * ターゲット時間を更新する
+     * ターゲット時刻を更新する
      */
     fun updateTargetTime(targetTime: String) {
         _uiState.update { currentState ->
@@ -50,7 +50,7 @@ class CheckViewModel(private val historiesRepository: HistoriesRepository) : Vie
     }
 
     /**
-     * ターゲットの時間が指定した範囲の時間に含まれているか確認する
+     * ターゲットの時刻が指定した範囲の時刻に含まれているか確認する
      * - 範囲指定は、開始時刻を含み、終了時刻は含まない
      * - ただし開始時刻と終了時刻が同じ場合は含む
      */
@@ -72,7 +72,7 @@ class CheckViewModel(private val historiesRepository: HistoriesRepository) : Vie
 
 
             if (startTimeInt == lastTimeInt) {
-                // 範囲の最初の時間と最後の時間が同じ場合
+                // 範囲の最初の時刻と最後の時刻が同じ場合
                 if (targetTimeInt == startTimeInt) {
                     result = true
                 }

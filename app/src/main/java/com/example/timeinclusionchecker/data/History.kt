@@ -7,13 +7,13 @@ import androidx.room.PrimaryKey
 data class History(
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
-    /** 確認時間 */
+    /** 確認時刻 */
     val checkTime: String,
-    /** 開始時間 */
+    /** 開始時刻 */
     val startTime: String,
-    /** 終了時間 */
+    /** 終了時刻 */
     val lastTime: String,
-    /** ターゲット時間 */
+    /** ターゲット時刻 */
     val targetTime: String,
     /** ターゲットが指定範囲に含まれるかチェックした結果 */
     val isInRange: String = "",

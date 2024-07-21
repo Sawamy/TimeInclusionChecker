@@ -1,17 +1,26 @@
 <resources>
-    <string name="app_name">TimeInclusionChecker</string>
-    <string name="check">check</string>
-    <string name="history">history</string>
+    <string name="app_name">時刻範囲内チェッカー</string>
+    <string name="check">時刻範囲内チェッカー</string>
+    <string name="history">確認履歴</string>
     <string name="back_button">Back</string>
 
-    <string name="set_time_range">時間範囲を設定</string>
-    <string name="input_first_time">開始時間</string>
-    <string name="input_last_time">終了時間</string>
-    <string name="input_target_time">調査対象時間を設定</string>
+    <string name="set_time_range">時刻範囲を設定</string>
+    <string name="input_first_time">開始時刻</string>
+    <string name="input_last_time">終了時刻</string>
+    <string name="input_target_time">調査対象時刻を設定</string>
+    <string name="please_select">"選択してください"</string>
     <string name="check_result">"調査結果:  "</string>
     <string name="check_result_unsettled">"調査未実施です"</string>
     <string name="check_button">確認する</string>
 
     <string name="view_histories_list">履歴リストを表示する</string>
     <string name="no_item_description">履歴がありません</string>
+
+    <string name="histories_no">"No: "</string>
+    <string name="histories_start_time">"開始時刻: "</string>
+    <string name="histories_last_time">"終了時刻: "</string>
+    <string name="histories_target_time">"調査対象時刻: "</string>
+    <string name="histories_is_in_range">"判定結果: "</string>
+    <string name="histories_hour">"時"</string>
+
 </resources>
