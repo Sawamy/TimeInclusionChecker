@@ -52,7 +52,7 @@ class CheckViewModel(private val historiesRepository: HistoriesRepository) : Vie
      * - 範囲指定は、開始時刻を含み、終了時刻は含まない
      * - ただし開始時刻と終了時刻が同じ場合は含む
      */
-    fun checkInRange() {
+    fun checkInRange() :Boolean{
 
         val startTime = _uiState.value.startTime
         val lastTime = _uiState.value.lastTime
@@ -101,9 +101,13 @@ class CheckViewModel(private val historiesRepository: HistoriesRepository) : Vie
                 }
             }
 
+            return true
+
 
         } else {
             // 未入力があったら何もしない
+
+            return false
         }
     }
 

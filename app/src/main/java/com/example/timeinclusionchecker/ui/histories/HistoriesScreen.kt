@@ -39,20 +39,6 @@ fun HistoriesScreen(
 
     val historiesUiState by historiesViewModel.historiesUiState.collectAsState()
 
-    Column(
-        modifier = modifier,
-        verticalArrangement = Arrangement.SpaceBetween
-    ) {
-        // 確認するボタン
-        Button(
-            onClick = {},
-            shape = MaterialTheme.shapes.small,
-            enabled = true
-        ) {
-            Text(text = stringResource(R.string.check_button))
-        }
-    }
-
     HistoryBody(
         historyList = historiesUiState.historiesList,
         modifier = modifier.fillMaxSize()

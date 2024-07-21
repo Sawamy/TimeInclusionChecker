@@ -190,9 +190,11 @@ fun StartCheckScreen(
                 // 確認するボタン
                 Button(
                     onClick = {
-                        checkViewModel.checkInRange()
-                        coroutineScope.launch {
-                            checkViewModel.saveHistory()
+                        val checkResult = checkViewModel.checkInRange()
+                        if (checkResult) {
+                            coroutineScope.launch {
+                                checkViewModel.saveHistory()
+                            }
                         }
                     },
                     shape = MaterialTheme.shapes.small,
