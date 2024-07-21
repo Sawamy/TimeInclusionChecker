@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
@@ -100,16 +101,21 @@ private fun HistoryItem(
             modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_large)),
             verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.padding_small))
         ) {
+
             Row(
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Text(
-                    text = "開始時刻" + history.startTime,
+                    modifier = Modifier.weight(1f),
+                    textAlign = TextAlign.Start,
+                    text = "No: " + history.id,
                     style = MaterialTheme.typography.titleMedium
                 )
-                Spacer(Modifier.weight(1f))
+                Spacer(modifier = Modifier.width(16.dp))
                 Text(
-                    text = "終了時刻" + history.lastTime,
+                    modifier = Modifier.weight(1f),
+                    textAlign = TextAlign.Start,
+                    text = history.checkTime,
                     style = MaterialTheme.typography.titleMedium
                 )
             }
@@ -117,12 +123,33 @@ private fun HistoryItem(
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Text(
-                    text = "調査対象時間" + history.targetTime,
+                    modifier = Modifier.weight(1f),
+                    textAlign = TextAlign.Start,
+                    text = "開始時刻: " + history.startTime + "時",
                     style = MaterialTheme.typography.titleMedium
                 )
-                Spacer(Modifier.weight(1f))
+                Spacer(modifier = Modifier.width(16.dp))
                 Text(
-                    text = "判定結果" + history.isInRange,
+                    modifier = Modifier.weight(1f),
+                    textAlign = TextAlign.Start,
+                    text = "終了時刻: " + history.lastTime + "時",
+                    style = MaterialTheme.typography.titleMedium
+                )
+            }
+            Row(
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text(
+                    modifier = Modifier.weight(1f),
+                    textAlign = TextAlign.Start,
+                    text = "調査対象時間: " + history.targetTime + "時",
+                    style = MaterialTheme.typography.titleMedium
+                )
+                Spacer(modifier = Modifier.width(16.dp))
+                Text(
+                    modifier = Modifier.weight(1f),
+                    textAlign = TextAlign.Start,
+                    text = "判定結果: " + history.isInRange,
                     style = MaterialTheme.typography.titleMedium
                 )
             }

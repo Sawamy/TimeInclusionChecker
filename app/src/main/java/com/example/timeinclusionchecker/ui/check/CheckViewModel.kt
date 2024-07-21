@@ -8,6 +8,8 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import java.text.SimpleDateFormat
+import java.util.Date
 
 class CheckViewModel(private val historiesRepository: HistoriesRepository) : ViewModel() {
 
@@ -114,6 +116,7 @@ class CheckViewModel(private val historiesRepository: HistoriesRepository) : Vie
     suspend fun saveHistory() {
         val temp = HistoryDetails(
             0,
+            getCurrentTimestampFormatted(),
             startTime = _uiState.value.startTime,
             lastTime = _uiState.value.lastTime,
             targetTime = _uiState.value.targetTime,
@@ -125,6 +128,7 @@ class CheckViewModel(private val historiesRepository: HistoriesRepository) : Vie
 
 data class HistoryDetails(
     val id: Int = 0,
+    val checkTime: String = "",
     val startTime: String = "",
     val lastTime: String = "",
     val targetTime: String = "",
@@ -133,8 +137,16 @@ data class HistoryDetails(
 
 fun HistoryDetails.toHistory(): History = History(
     id = id,
+    checkTime = checkTime,
     startTime = startTime,
     lastTime = lastTime,
     targetTime = targetTime,
     isInRange = isInRange
 )
+
+fun getCurrentTimestampFormatted(): String {
+    val currentTimeMillis = System.currentTimeMillis()
+    val dateFormat = SimpleDateFormat("yyyy/MM/dd HH:mm:ss")
+    val date = Date(currentTimeMillis)
+    return dateFormat.format(date)
+}

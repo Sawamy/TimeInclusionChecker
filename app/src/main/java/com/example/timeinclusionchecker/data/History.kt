@@ -7,6 +7,8 @@ import androidx.room.PrimaryKey
 data class History(
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
+    /** 確認時間 */
+    val checkTime: String,
     /** 開始時間 */
     val startTime: String,
     /** 終了時間 */
