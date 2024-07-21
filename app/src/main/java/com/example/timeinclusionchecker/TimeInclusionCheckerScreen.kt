@@ -2,7 +2,6 @@ package com.example.timeinclusionchecker
 
 import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -17,7 +16,6 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -88,10 +86,7 @@ fun TimeInclusionCheckerApp(
                 StartCheckScreen(
                     onNextButtonClicked = {
                         navController.navigate(TimeInclusionCheckerScreen.History.name)
-                    },
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(dimensionResource(R.dimen.padding_medium))
+                    }
                 )
             }
             composable(route = TimeInclusionCheckerScreen.History.name) {

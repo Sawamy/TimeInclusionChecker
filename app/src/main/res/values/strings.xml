@@ -4,10 +4,12 @@
     <string name="history">history</string>
     <string name="back_button">Back</string>
 
-    <string name="input_first_time">最初の時間</string>
-    <string name="input_last_time">最後の時間</string>
-    <string name="input_target_time">調査対象時間</string>
+    <string name="set_time_range">時間範囲を設定</string>
+    <string name="input_first_time">開始時間</string>
+    <string name="input_last_time">終了時間</string>
+    <string name="input_target_time">調査対象時間を設定</string>
     <string name="check_result">"調査結果:  "</string>
+    <string name="check_result_unsettled">"調査未実施です"</string>
     <string name="check_button">確認する</string>
 
     <string name="view_histories_list">履歴リストを表示する</string>

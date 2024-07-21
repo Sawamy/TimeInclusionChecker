@@ -1,5 +1,3 @@
-@file:Suppress("UNUSED_EXPRESSION")
-
 package com.example.timeinclusionchecker.ui
 
 import android.annotation.SuppressLint
@@ -8,13 +6,10 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.*
 import androidx.compose.material3.TextButton
@@ -44,8 +39,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun StartCheckScreen(
     checkViewModel: CheckViewModel = viewModel(factory = AppViewModelProvider.Factory),
-    onNextButtonClicked: () -> Unit = {},
-    modifier: Modifier = Modifier
+    onNextButtonClicked: () -> Unit = {}
 ) {
     val coroutineScope = rememberCoroutineScope()
 
@@ -79,6 +73,10 @@ fun StartCheckScreen(
             verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.padding_medium))
         ) {
             Spacer(modifier = Modifier.height(dimensionResource(R.dimen.padding_medium)))
+            Text(
+                text = stringResource(R.string.set_time_range),
+                style = MaterialTheme.typography.headlineSmall
+            )
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.Center,
@@ -98,7 +96,14 @@ fun StartCheckScreen(
                     Spacer(modifier = Modifier.height(dimensionResource(R.dimen.padding_small)))
 
                     TextButton(onClick = { firstTimeExpanded = true }) {
-                        Text(firstTimeSelectedNumber + "時")
+                        Text(
+                            text = if (firstTimeSelectedNumber == "選択してください") {
+                                firstTimeSelectedNumber
+                            } else {
+                                firstTimeSelectedNumber + "時"
+                            },
+                            style = MaterialTheme.typography.titleMedium
+                        )
                     }
                     DropdownMenu(
                         expanded = firstTimeExpanded,
@@ -107,13 +112,19 @@ fun StartCheckScreen(
                         (0..23).forEach { number ->
 
                             DropdownMenuItem(
-                                text = { Text(text = number.toString() + "時") },
+                                text = {
+                                    Text(
+                                        text = number.toString() + "時",
+                                        style = MaterialTheme.typography.titleMedium
+                                    )
+                                },
                                 onClick = {
                                     firstTimeSelectedNumber = number.toString()
                                     firstTimeExpanded = false
                                     checkViewModel.updateStartTime(number.toString())
-                                }
-                            )
+                                },
+
+                                )
                         }
                     }
                 }
@@ -133,7 +144,14 @@ fun StartCheckScreen(
                     Spacer(modifier = Modifier.height(dimensionResource(R.dimen.padding_small)))
 
                     TextButton(onClick = { lastTimeExpanded = true }) {
-                        Text(lastTimeSelectedNumber + "時")
+                        Text(
+                            text = if (lastTimeSelectedNumber == "選択してください") {
+                                lastTimeSelectedNumber
+                            } else {
+                                lastTimeSelectedNumber + "時"
+                            },
+                            style = MaterialTheme.typography.titleMedium
+                        )
                     }
                     DropdownMenu(
                         expanded = lastTimeExpanded,
@@ -142,7 +160,12 @@ fun StartCheckScreen(
                         (0..23).forEach { number ->
 
                             DropdownMenuItem(
-                                text = { Text(text = number.toString() + "時") },
+                                text = {
+                                    Text(
+                                        text = number.toString() + "時",
+                                        style = MaterialTheme.typography.titleMedium
+                                    )
+                                },
                                 onClick = {
                                     lastTimeSelectedNumber = number.toString()
                                     lastTimeExpanded = false
@@ -157,18 +180,34 @@ fun StartCheckScreen(
 
             // 調査対象時間
             Column(
-                modifier = modifier,
+                modifier = Modifier
+                    .align(Alignment.CenterHorizontally)
+                    .height(170.dp)
+                    .fillMaxWidth(),
                 horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.padding_small))
+                verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.padding_medium))
             ) {
                 Text(
                     text = stringResource(R.string.input_target_time),
                     style = MaterialTheme.typography.headlineSmall
                 )
 
-                TextButton(onClick = { targetTimeExpanded = true }) {
-                    Text(targetTimeSelectedNumber + "時")
+                TextButton(
+                    onClick = { targetTimeExpanded = true },
+                    modifier = Modifier
+                        .padding(bottom = 16.dp)
+                        .align(Alignment.CenterHorizontally),
+                ) {
+                    Text(
+                        text = if (targetTimeSelectedNumber == "選択してください") {
+                            targetTimeSelectedNumber
+                        } else {
+                            targetTimeSelectedNumber + "時"
+                        },
+                        style = MaterialTheme.typography.titleMedium
+                    )
                 }
+
                 DropdownMenu(
                     expanded = targetTimeExpanded,
                     onDismissRequest = { targetTimeExpanded = false }
@@ -176,7 +215,12 @@ fun StartCheckScreen(
                     (0..23).forEach { number ->
 
                         DropdownMenuItem(
-                            text = { Text(text = number.toString() + "時") },
+                            text = {
+                                Text(
+                                    text = number.toString() + "時",
+                                    style = MaterialTheme.typography.titleMedium
+                                )
+                            },
                             onClick = {
                                 targetTimeSelectedNumber = number.toString()
                                 targetTimeExpanded = false
@@ -186,6 +230,13 @@ fun StartCheckScreen(
                     }
                 }
 
+            }
+
+            Column(
+                modifier = Modifier.align(Alignment.CenterHorizontally),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.padding_medium))
+            ) {
 
                 // 確認するボタン
                 Button(
@@ -210,7 +261,11 @@ fun StartCheckScreen(
                     modifier = Modifier.padding(20.dp)
                 ) {
                     Text(
-                        text = stringResource(R.string.check_result) + uiState.isInRange,
+                        text = if (uiState.isInRange.isEmpty()) {
+                            stringResource(R.string.check_result_unsettled)
+                        } else {
+                            stringResource(R.string.check_result) + uiState.isInRange
+                        },
                         style = MaterialTheme.typography.headlineSmall,
                         modifier = Modifier.padding(8.dp)
                     )
@@ -218,7 +273,6 @@ fun StartCheckScreen(
             }
         }
     }
-
 }
 
 @Preview
@@ -226,10 +280,7 @@ fun StartCheckScreen(
 fun StartOrderPreview() {
     TimeInclusionCheckerTheme {
         StartCheckScreen(
-            onNextButtonClicked = {},
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(dimensionResource(R.dimen.padding_medium))
+            onNextButtonClicked = {}
         )
     }
 }
