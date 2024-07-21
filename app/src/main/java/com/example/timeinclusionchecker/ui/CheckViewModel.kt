@@ -49,6 +49,8 @@ class CheckViewModel(private val historiesRepository: HistoriesRepository) : Vie
 
     /**
      * ターゲットの時間が指定した範囲の時間に含まれているか確認する
+     * - 範囲指定は、開始時刻を含み、終了時刻は含まない
+     * - ただし開始時刻と終了時刻が同じ場合は含む
      */
     fun checkInRange() {
 
@@ -66,15 +68,23 @@ class CheckViewModel(private val historiesRepository: HistoriesRepository) : Vie
 
             var result = false
 
-            if (startTimeInt <= lastTimeInt) {
+
+            if (startTimeInt == lastTimeInt) {
+                // 範囲の最初の時間と最後の時間が同じ場合
+                if (targetTimeInt == startTimeInt) {
+                    result = true
+                }
+
+            } else if (startTimeInt < lastTimeInt) {
                 // 範囲が同じ日の場合
-                if (targetTimeInt in startTimeInt..lastTimeInt) {
+                if (targetTimeInt in startTimeInt until lastTimeInt) {
                     result = true
                 }
             } else {
                 // 範囲が日をまたぐ場合
-                if (targetTimeInt in startTimeInt..23 || targetTimeInt in 0..lastTimeInt)
+                if (targetTimeInt in startTimeInt .. 23 || targetTimeInt in 0 until lastTimeInt){
                     result = true
+                    }
             }
 
             if (result) {
